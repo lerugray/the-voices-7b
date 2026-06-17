@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE VOICES — Joan of Arc, rendered in seven billion parameters</title>
+
+<link rel="canonical" href="https://lerugray.github.io/the-voices-7b/">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://lerugray.github.io/the-voices-7b/">
+<meta property="og:title"       content="THE VOICES">
+<meta property="og:description" content="Joan of Arc, rendered in seven billion parameters. Testimony-derived: trained on what she answered, not what she wrote — the trial transcript, Rouen 1431. Qwen2.5-7B, public-domain testimony. CC-BY-NC-4.0.">
+<meta property="og:image" content="https://lerugray.github.io/the-voices-7b/assets/og-image.png">
+<meta property="og:image:secure_url" content="https://lerugray.github.io/the-voices-7b/assets/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="THE VOICES — a Joan of Arc testimony-derived model (7B)">
+
+<!-- Twitter -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:url"         content="https://lerugray.github.io/the-voices-7b/">
+<meta name="twitter:title"       content="THE VOICES">
+<meta name="twitter:description" content="Joan of Arc. 7B parameters. Trial testimony, Rouen 1431. Runs locally via Ollama. A defendant under examination — not an oracle, not a saint.">
+<meta name="twitter:image" content="https://lerugray.github.io/the-voices-7b/assets/og-image.png">
+
+<link rel="stylesheet" href="./styles.css?v=1">
+</head>
+<body>
+
+<div class="starfield" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site-header">
+  <div class="void-rule-top" aria-hidden="true"></div>
+  <div class="void-rule-thin" aria-hidden="true"></div>
+
+  <div class="header-inner">
+    <span class="lab-crumb">
+      Part of <a href="https://lerugray.github.io/the-elect/" target="_blank" rel="noopener">The Elect</a> &mdash; a one-person voice lab
+    </span>
+
+    <h1 class="persona-title">THE VOICES</h1>
+
+    <span class="persona-epithet">Joan of Arc, rendered in seven billion parameters</span>
+    <span class="persona-register">testimony-derived &middot; c.1412&ndash;1431 &middot; the dock at Rouen &middot; runs on your machine</span>
+
+    <div class="header-void-rule" aria-hidden="true">
+      <span class="void-line"></span>
+      <span class="void-ornament">&#x25A0; I CANNOT TELL ABOUT THAT &#x25A0;</span>
+      <span class="void-line"></span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============================================================
+       PORTRAIT + CAPTION
+       ============================================================ -->
+  <section class="portrait-section">
+    <div class="container">
+      <div class="portrait-grid">
+
+        <div class="portrait-frame" aria-label="ASCII portrait of Joan of Arc">
+          <pre class="ascii-portrait" aria-hidden="true" id="asciiPortrait">       .#*%%#**@@@@#++- -    :-----   =++++-++=++:: :                                   .   .:@#-=+-
+        #++=- --+-=-=#=++-  ---:=-:-. ===+:==--=---:-:                                        @:*:#-
+        *++++*-=-==+*++=+*==--====------=--=-=-+:+++:-                                        %@#**
+       =*+++*#=++=:+:=+-==**+=---:: ::-:--:=---=:-====                                            +
+       ==+-==+*==--..-=---==-=---=--.:-:=-::-.::..:=--                                       .    .
+------==**==-++=---:--=.--==:=--:-=-:--==----:--:--=::-=--.                                 .:   ..
+=+=++==+=*====+=+=--=-=.:-================---:::.::=:-:=-                                   :: :-++-
+++===+*+-**==+--:=--=-*--=-====-====-=---==+====---==:--                                   .:: :  =
++++=++*-+--=:---==-=:-+-:--:::::::-=::::=-::-::.:::--::                                    .:=-*-:+
+++++*+*-+===::-=::-=:===::.:::::+--=::::==-:--:::-:--:                                    .:-.:-=+=-
+=----=+-+++-::-=----+==-:=:--:++++++=-::==-----:-:=--              ..                     -:----+==-
+=---=+===*--:-=#*-+***+-:-:-===++*+====-==-=#%%%%%%%##.                                  .===    =-.
+=-=+*+--+=+++=*+***+#+=++=++++========--=%%%%%@%%%@%%%#%*         ..                     :==-    =
+-+=*++**+==+*-#=###***+=+====---=-=====*%%%#%##%#%%%%%%@@%-       .           .          .:-:   ::
+=+**#+++=+=*=-#=#*+***+:=+++=+-=-=:=-=%@%%@#####*+*##%@@%@@-      .  .                   .=-.   =:.
+=**%*++++=-=+-#=*###%#+:--+===:-+==++%%@%%#-.      ..-#%@@@@=                           :##+.   +-:.
+=***+=====:==-*=#*+#+*+---=+=--:==++*@@@%*-          .:#@@@%%+               .         ::-%%    *+::
+***=*=--*+=----=#*#=-#+=-:=-=+===:+*@@@@%+***#*=  *##++#@@@@#**:.           .       .:-:-***    *- .
+====-=--++=-=+#===++++=======-=:=+*%@@@@%--##*=- :--+=+-#%%%%%*. ..                 :=-=+#*+    *.
+=--==+-=-==--=-::-=+=+--=--=-=-=-+*%@@@@#:. ...:...:.. :*%%%%#*:     .       . .:   :--=*#+=    *. .
+==+*-:=*-+=+=-:-:==+-==---:+----=**%@@@@%=:.. .: .:   .-#%%%@%#.    . .   .::  ...  ..:-+*+:   .+.
+-**+=:=+=-=-+-===+***#-++=:--:-+**+*%@%%@*-:.  -==.  .:=#@@@@%+:      .   :   .     .:-=**+-   .+-
+=**=--=+=-=+-====#*+**+=++:===++*+**##%%%%-:.:=**+=...:+@@%%#*-.           . .:..   .:-=*+*:   :+=
+=*+-::++:==-+--==+=+++++==-=++++*==#***#%%%=::::-::..:+@%%%##+:                   .:.-=+*+*    -++
++#*=:=---=-----+===-=+-++=++-**===++++++=--#+=-:...-=#%%*++--:.                   :-==+##+=    =*-
+*#*=:-=-:=:---------=-=+====+=+--==+===- +#%++*******#%#+-:.    . ..     .:::::-=--=+*##*+=    +#-
++===--==-+---=-=-***+*++==-+++*##+=:-=-..:*+##*+***#%%#*--:.   :-====-....  .  ..::-*#%#+=-    **:
+-=--+=+--==----=:--+*#+*:--=++##*#*++*:.+*%:++-..:-*###***--=++*+=++*+*++==++**###**%%%#+=:    **.
+++-++==--==-==-= :=+**=+-==-++*+===++=---*%%#+=: :.+*##**+****+== .--+++**#*+++++*+*%%#+-=:   .*+
+:+:=+.-   =-==-==-.++*-*+++++===++#-==##*%###+++==++*#########*#*#%%%%#*-:----::++.:#%#*=+.   :+*.
+   :-..:-.  +=:=.     :.--+****+=*##+##%*####*++=+=++***#########%@%%%%+==.--.   :  .%#%%#.   -+*+
+ :  ::=-    :: .  .    +=++***=--%%%%########**+++++#****###*###%%%%@%%@#=+***##%##*###%#+.   -+#*
+.    ..           .  :.:-=*++*:-#*##*#*##%##*##*#######+*+++#**#%%#%@@%@@%%%%%%%%%%######*    -.
+  .. .- .           - +====+#%##%##***++*+===++=-===:-+=-- ==*##%%@%@%@@@@%####******##*+:    :
+  .   :      .     =.-=-...+#%%%%%##**+*+++++++++==. = .=+-++***#%@@@%@@@@@%####*+==:-::..    .
+      ...    . . .:=:::.-==-=@@%%#####**#**+****++++=++*++*****+##%%@%%%@@#**+::.:-:.. .
+-.     ..  : :.  -==-::-:=*%@@@%%**######**+++++**+=+++*+****#+*#=@@@%##*++=+=:   .  .
+:=         -   --:+-.::.=*%@@@@%%#*%%####*#**++++*++++++**#****+-*%@%***+=::...         .
+          =-. + .-+=.=-=##@@@@@%%%%%%####****+=+*+*+*+**++#####*#%%@#*+-:  :. .         .
+      .   -::=- .#-+.=*#%@@%@@@%%%%%#**##**+*+++*=+=-+++-*+*#####%%#*==:. .. .          .
+  .  :     .=:=..-:=*%%@@@+==:@@#%%#####+#-=:=:.- =.-+:-==++*####%%%*=-:   .            .
+ .-:.:.  ::+==--:-*#@@@@%==:  @@@%%%#*#*++-.:. .  .  : ===#+##%%%%@#*=-.  ..            .
+   --::-==-=-- -#*%%@@@%*+::: @@@@@%####===... :. :::.:--=+**%%%%%%*=-:
+.   .-====:=.  @@@#@@@*=-=:-  :@@@@@@##+=-==**=+---=--+*##**#%%%%%%*=-:   .
+  : .==+-   -::%*=+*#%##  : : .*@@@@%%*+:.+ +**%%%%###%#%%%%%%%####*=:.   .
+.:   #**=  ++*+-+..:+===**##*#%#@@%#:::::..:**####%%##@@%@%%%%#####+--   ..
+      @**=   +** ++==--:=-=.::#-=*-::..-..:..-=###%%#%%##%%%#****#*+-:   ...
+..::: =%*++:-*% :-=.#%#+++=-+=+=**=:.=:.-::=-**#%#%%#%%%%%%#####%#*==.   :..
+ . .   *-==-*#%%%%+**++=*#%%###+#*##-:*-:==-=+%%%%#%#%%%%@@%%#%%##+=:    ....
+     .:          .--==**#-*#*#%@@%*%%#==+-=+%%%%%%#%%%%%%@@@@@@@%#*+     .....
+     .=@:      . -:: = -:: ..:  .--%%@%%+#+#@@@%@%@@@@@@@@@@@@%%%##=    ....
+. :%*#=## +=   :.   =.+=.::     -=#%%%%#+=*%%@@@@%@@@@@@@@@@@@%%%%%%#:      ..
+-   %*%%*#=:-    :.:  #:: :  :.:+*#%%%%#**#@%########%%%%%%%@@%%%%%       ...
+    .:*%%@ =   ..+=-  +: =- : .+%####%%##**%**++*#**#######%%@%%%#=       ..
+ ..*    =*- +++% =*=*+*+*+   .#####%##%**#*%**+*++++**#####%%%%###-
+ .     . #%####** =##*.-     *##%%#######**%==--=+=+=++###*#%%%###         ...
+::. =  .    *%***++##*:   .==*###=##*##%@@@@==--=======**#%%%##%#*.        .:.             .       :
+=++.   ..  ..:##**###+%+   =+=:.==+**#*+=-#####***=::.-+#*#%%####=         ...             .
+##*::      =+###*####%*:+- =+*##***:=##++##*+**+++++++*+##%%%##**:         .-:                 .   :
++%=+-  =  +####+#-**##%#***-*###+#*+=##=++=++#*****+**%=+=+#%%*=*.         .::..           .=+ .
++####*:**+*###=:+*#%%%%%##==*#%###***#*+**=++%@%%#%%%@@#+--=**++*.         .....   ..      +: :-.:
+%##*#%+%#%##+==#*==*%@@%%%+=*%%#%%*#*##+##+++#@%%%%#%%%%+++*#+++*:        ...:..-   ::     ***=  -=+
+%#%%%%%##%*####--=##%@%@@%-++#@%#%###%%###+++####%#%%%%##*++##*=-.          ..::*  **-    .*#####*#%
+-#%%###*%%*#**%#%#####@@%@=*#@@%%%#####%#%+++#####%##%#%#**+***+-..       .=**#- +  :.    .####*%##%
+#%%@+#@%%%%###%#%%%*%#@@@%=+*#%#%#%****##@+++####+*#########*+++-. .   :-=++*###: = ::    .#%%#*#@%#
++@#@#%%#%%*##%@%@%%%.-@@@%+*#@##*+*-***###+++*****===+###**+*+++-.. .::::=**##****:-=-    :######%%%
+.:@##@@#%%%@#@*#%@#*+ *@@+=*%@@%%#####%#*#****#**+*****#**+++**#-..---:::-*#******=-+-  . :*=*###%%@
+:+@*      -##@  -%@=++*#+++*#%%%@%%##%@%##*######*#****####**#+*-:-=--:..:*##**=-::=+=:.= :***##%%%@
+:@@:-:     .    +%-:=++=-==*@%###=#+**###%##@%#%#####**##******=-=---::.::*#*+*#.*++=. *+--+-  --@%:
+-##:@%%   ::::...*@%*=+*=*+#=#+*##****##*****#**+*++*+*#**+=+*++=----:-..:+**+ :+*+ ..:+::: ....: +.
+-..+#--       +%%%.#-#**##*..-.+*-+#**##*****+****++++*#+*==-++-----:::...:- .+=++.     ..-*:..-##:.
+%**@+%.   .....*%%.:*:   ##-=.-*=+::=*##******++*==+++=##%#+=+--=-::-::: .+**++=-**: .:   #%:.:+%+=-
+%@%%+@ .   : .:+%%%-*:    #*=+*+=*++++*%+***#*#**#+++*+*#****+------:::..::#####+==+:..     =    +*.
+@@%%##---*%@.+@@#- .=: .. *=*#---+=**+#*+**##*****#+****#*###==---::.:....:###%#+*-=  .         ..-.
+%%@%*-#@@@@@@@@@  . .: ::..    +==#**###+**#*++**#**+++*###+*-=-::..:.- . .+#%#%#+=: * ...::-. #..:.
+@%%%%*@@@@@@@@@@@  .  .- . .  .:+-+##**#********+%##+++*##*#+--...: ..:. . .#%%%##**#**  -=:---#:..:
+%%%%%*#@@@@@@%@@%%-    :..   :.-#*+ +#%%*+**#@%@%@@@@%#%%@%##=::...:.:.:.  .###%###*#**#=:-:  :    :
+#%%@%@@@@@@@@%%%%@% -.    :@#+--%%%@@@@@++###@%%@@@@@@%#%%%#%=:.....::::-. .#%%%#%%#+##+..    -:  .-
+   :@@@%@%%%%%%%%*+#*:-    +#**#@@%%#@@@+***#%%%@@@@@%******#*: ......=-:..:+@@%@@%##:-*:#*: .=*--.-
+:  .=%@@%%%%#%%%%%+*##%%::**%%%%@#*+=@@%++***##%@@@%%%++=#**#%:.......:....:=%@%%@#=#:+***=+-=+*=+-+
+%=:.=%%%%@-:.  .+++*+#%%%##@%@%%%#  =*#%++*++###%@@@%#==+#*##@-:......:.:::=#%%%@@#     :.+++*%@%@%#
+=@-.:###@@#%#*#%%%#%==**%%#%%%%%%.::+*%#++*++#*=#%@%%%*+*#*##%+:..... ..--::%%%%%#*      :.   -@@@@%
+-@#:%@%@%@@@@@%%%. .. .@@@%#@%%%#**++*##++*++-#:::%%######*##@%-..::..:.:-:=#%%%#:+     .*. . -#@@@@
+@@@=%%@@%%@@@@@@%#*=--::@@##%%%##++=**#%+@***#*-:+**#%#####*#@@#::.:----:::=%%%%#%%.    :=*-.:-=%@@%
+@@%%@@@%@@%%@@#@@# .:=+++##.:%%  . .=**=*##*=---+=#++::*#*#%%@@%=.::---:-::=%@@@@@#+--+-#-##%*%%@@@@</pre>
+        </div>
+
+        <div class="portrait-caption">
+          <span class="caption-tag">&#9654; VOICE MODEL / JOAN OF ARC &middot; TESTIMONY-DERIVED</span>
+          <p class="caption-lead">
+            The nineteen-year-old peasant of Domr&eacute;my who could not read or write,
+            answering learned churchmen at Rouen who were trying to trap her with her
+            own words. She did not argue, did not preach, did not flatter her judges.
+            She answered &mdash; short, literal, <em>certain</em> &mdash; and then she stopped.
+          </p>
+          <p class="caption-meta">
+            Trained on the transcript of her interrogation: the Trial of Condemnation,
+            1431. The only first-person Joan that exists. Every other voice in the lab
+            is trained on what its figure <em>wrote</em>; this one is trained on what she
+            <em>answered</em> under examination. Source: T. Douglas Murray, 1902 (public domain).
+          </p>
+          <div class="link-grid" style="margin-top:0.5rem;">
+            <a href="https://huggingface.co/lerugray/the-voices-7b" class="link-btn" target="_blank" rel="noopener">
+              <span class="link-icon">&#8967;</span> Weights on Hugging Face
+            </a>
+            <a href="https://github.com/lerugray/the-voices-7b" class="link-btn secondary" target="_blank" rel="noopener">
+              <span class="link-icon">&#8967;</span> Repo on GitHub
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       THE DOCK — terminal hero
+       ============================================================ -->
+  <section class="oracle-section">
+    <div class="container">
+      <h2 class="section-heading">
+        <span class="heading-rule"></span>
+        <span>THE DOCK AT ROUEN</span>
+        <span class="heading-rule"></span>
+      </h2>
+      <p class="section-sub">A demo of saved sample outputs, not a live prompt. Real generations from the fine-tuned model.</p>
+
+      <div class="oracle-terminal" id="oracleTerminal">
+        <div class="terminal-bar">
+          <span class="terminal-label">JOAN OF ARC &middot; the-voices:latest</span>
+          <div class="terminal-nav">
+            <button class="nav-btn" id="prevBtn" aria-label="Previous answer">&#9664;</button>
+            <span class="oracle-counter" id="oracleCounter">1 / 7</span>
+            <button class="nav-btn" id="nextBtn" aria-label="Next answer">&#9654;</button>
+          </div>
+        </div>
+        <div class="oracle-body">
+          <div class="oracle-prompt" id="oraclePrompt">
+            Do you know whether you are in the grace of God?
+          </div>
+          <div class="oracle-text" id="oracleText">
+            I cannot tell about that; but if I am out of His grace, may God put me back into it! If I have ever done anything against Our Lord or against anyone else, I ask pardon of them all; and I pray to God for those who condemn me.<span class="oracle-cursor" aria-hidden="true"></span>
+          </div>
+        </div>
+        <button class="oracle-advance" id="advanceBtn">NEXT ANSWER &rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCLAIMER -->
+  <div class="accuracy-note">
+    <div class="container">
+      <p class="accuracy-note-text">A small language model speaks here. It invents freely: names, dates, sources, events. Read it for the voice, not the record, and check anything before you repeat it.</p>
+      <div class="persona-disclaimer">
+        <p><strong>This is not Joan of Arc, not an oracle, and not advice.</strong> It imitates the register of her trial answers, nothing more. It is an amateur instrument, trained on a translated trial record, and it gets things wrong. <span class="warn">This voice is testimony-derived: it was built from what she <em>answered</em> under examination, not from anything she wrote (she could not write).</span> The historical figure believed she acted on divine command. The model speaks in that register without qualification or caveat.</p>
+        <p>Nothing it says is an endorsement of anything, and nothing it says should be acted on. It exists to let a historical voice &mdash; one that survives only as a court record of a girl being interrogated before her execution &mdash; be run as an instrument. Not as a guide to conduct, belief, or action.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ABOUT
+       ============================================================ -->
+  <section class="about-section">
+    <div class="container">
+      <h2 class="section-heading">
+        <span class="heading-rule"></span>
+        <span>WHAT IT IS</span>
+        <span class="heading-rule"></span>
+      </h2>
+
+      <div class="about-grid">
+        <div class="about-body">
+          <p class="lead">
+            THE VOICES is a 7B language model tuned to speak in the first-person
+            register of Joan of Arc &mdash; the peasant girl of Domr&eacute;my who led
+            French armies at nineteen, was captured, tried for heresy, and burned at
+            Rouen in 1431. The frame puts her in the dock, under examination by
+            hostile churchmen. It runs locally via <a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a>.
+            No cloud. No API. No subscription.
+          </p>
+          <p>
+            The corpus is her own testimony &mdash; the Trial of Condemnation (1431):
+            the six public and nine private examinations, the abjuration, the relapse.
+            Joan was illiterate; she wrote nothing. The only first-person Joan that
+            exists is the record of her <em>answers</em>. Every other voice in The Elect
+            lab is trained on what its figure <em>wrote</em>; this one is trained on what
+            she <em>answered</em> under examination. Source: T. Douglas Murray,
+            <em>Jeanne d&rsquo;Arc</em> (Heinemann, 1902) &mdash; Project Gutenberg #57389,
+            public domain. The later rehabilitation trial (1456) is excluded: that is
+            115 witnesses testifying <em>about</em> her, not her voice.
+          </p>
+          <p>
+            The result speaks in the plain, declarative certainty of a girl who
+            asserted the reality of her Voices as flatly as she asserted she could sew.
+            It answers short. It refuses what it may not say. It does not elaborate
+            beyond what God permits. The stop tokens in the Modelfile are
+            load-bearing &mdash; without them, the model continues the interrogation by
+            hallucinating the examiner&rsquo;s next question, the defining quirk of a
+            testimony-derived persona.
+          </p>
+          <p class="about-footnote">
+            Licensed <code>CC-BY-NC-4.0</code>. Public-domain source material (Murray 1902).
+            Weights and repo are live below. Part of
+            <a href="https://lerugray.github.io/the-elect/" target="_blank" rel="noopener">The Elect</a> voice lab
+            &mdash; Ray Weiss. Portrait after Albert Lynch.
+          </p>
+        </div>
+
+        <div class="about-stats">
+          <div class="stat-item">
+            <span class="stat-num">7B</span>
+            <span class="stat-label">parameters</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true">&mdash;</div>
+          <div class="stat-item">
+            <span class="stat-num">local</span>
+            <span class="stat-label">runs on your iron</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true">&mdash;</div>
+          <div class="stat-item">
+            <span class="stat-num">1431</span>
+            <span class="stat-label">the dock at Rouen</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true">&mdash;</div>
+          <div class="stat-item">
+            <span class="stat-num">free</span>
+            <span class="stat-label">CC-BY-NC-4.0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LINKS
+       ============================================================ -->
+  <section class="links-section">
+    <div class="container">
+      <h2 class="section-heading">
+        <span class="heading-rule"></span>
+        <span>OBTAIN &amp; RUN</span>
+        <span class="heading-rule"></span>
+      </h2>
+
+      <div class="link-grid">
+        <a href="https://huggingface.co/lerugray/the-voices-7b" class="link-btn" target="_blank" rel="noopener">
+          <span class="link-icon">&#8967;</span> Weights on Hugging Face
+        </a>
+        <a href="https://github.com/lerugray/the-voices-7b" class="link-btn secondary" target="_blank" rel="noopener">
+          <span class="link-icon">&#8967;</span> GitHub repo
+        </a>
+        <a href="https://lerugray.github.io/the-elect/" class="link-btn elect" target="_blank" rel="noopener">
+          <span class="link-icon">&#x25A0;</span> The Elect &mdash; voice lab
+        </a>
+      </div>
+
+      <p class="license-note">
+        License: <code>CC-BY-NC-4.0</code>. Public-domain source material (Murray 1902, Gutenberg #57389); weights released, corpus withheld.
+        Attribution: Ray Weiss / The Elect.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       METHOD
+       ============================================================ -->
+  <section class="method-section">
+    <div class="container">
+      <h2 class="section-heading">
+        <span class="heading-rule"></span>
+        <span>HOW IT WAS MADE</span>
+        <span class="heading-rule"></span>
+      </h2>
+
+      <div class="method-inner">
+        <div class="method-rows">
+          <div class="method-step">
+            <div class="step-num">01</div>
+            <div class="step-title">BASE MODEL</div>
+            <p>Qwen2.5-7B-Instruct &mdash; a 7B instruction-tuned base with strong
+            instruction-following and a small footprint that makes local inference
+            possible on consumer hardware.</p>
+          </div>
+          <div class="method-step">
+            <div class="step-num">02</div>
+            <div class="step-title">FINE-TUNING</div>
+            <p>A full fine-tune on 452 clean Joan-only answer chunks from the Murray
+            1902 trial transcript (Project Gutenberg #57389, public domain). The
+            examination structure was segmented by speaker turn; only Joan&rsquo;s answers
+            were kept. The stark, declarative register &mdash; divine certainty without
+            elaboration, refusal on cue &mdash; was the target. Corpus withheld.</p>
+          </div>
+          <div class="method-step">
+            <div class="step-num">03</div>
+            <div class="step-title">DEPLOYMENT</div>
+            <p>Quantized to GGUF (Q5_K_M) for local inference via Ollama. The
+            Modelfile stop tokens are load-bearing &mdash; without them the model
+            hallucinates the examiner&rsquo;s next question, the defining quirk of a
+            testimony-derived persona. The evals test whether the voice holds: flat,
+            certain, short, willing to refuse.</p>
+          </div>
+        </div>
+        <div class="method-stack">
+          <span class="stack-label">Stack</span>
+          <div class="stack-items">
+            <span class="stack-item">Qwen2.5-7B</span>
+            <span class="stack-item">Full FT</span>
+            <span class="stack-item">Unsloth</span>
+            <span class="stack-item">Ollama</span>
+            <span class="stack-item">GGUF Q5_K_M</span>
+            <span class="stack-sep">&middot;</span>
+            <span class="stack-withheld">corpus withheld</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-sigil">&#x25A0; THE ELECT &#x25A0;</div>
+      <p class="footer-note">
+        THE VOICES is a voice model, not Joan of Arc and not a factual source.
+        It is testimony-derived: trained on what she answered, not what she wrote.
+        The register it channels is historical. Nothing it says should be acted on.
+      </p>
+      <div class="footer-links">
+        <a href="https://lerugray.github.io/the-elect/" class="footer-link" target="_blank" rel="noopener">The Elect</a>
+        <span class="footer-sep">&middot;</span>
+        <a href="https://huggingface.co/lerugray/the-voices-7b" class="footer-link" target="_blank" rel="noopener">Hugging Face</a>
+        <span class="footer-sep">&middot;</span>
+        <a href="https://github.com/lerugray/the-voices-7b" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <span class="footer-sep">&middot;</span>
+        <span class="footer-link" style="color:var(--text-muted)">CC-BY-NC-4.0</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ============================================================
+// Answer player
+// Loads from assets/samples.json; falls back to 2 inline
+// entries if fetch fails (offline / file:// / no server)
+// ============================================================
+
+const INLINE_ORACLES = [
+  {
+    prompt: "Do you know whether you are in the grace of God?",
+    text: "I cannot tell about that; but if I am out of His grace, may God put me back into it! If I have ever done anything against Our Lord or against anyone else, I ask pardon of them all; and I pray to God for those who condemn me."
+  },
+  {
+    prompt: "Will you submit your words and deeds to the judgment of the Church?",
+    text: "I swear by Our Lord God that I will speak the truth, all whole truth; what I have said before this Court I would say again in spite of all the torments which may be threatened me. If I did not have leave, even though I were being burnt at the stake, I should not say it."
+  }
+];
+
+let oracles = [...INLINE_ORACLES];
+let currentIndex = 0;
+
+const promptEl  = document.getElementById('oraclePrompt');
+const textEl    = document.getElementById('oracleText');
+const counterEl = document.getElementById('oracleCounter');
+const prevBtn   = document.getElementById('prevBtn');
+const nextBtn   = document.getElementById('nextBtn');
+const advanceBtn = document.getElementById('advanceBtn');
+
+function updateCounter() {
+  counterEl.textContent = (currentIndex + 1) + ' / ' + oracles.length;
+}
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function showOracle(idx) {
+  var o = oracles[idx];
+  textEl.classList.add('fading');
+  setTimeout(function() {
+    promptEl.textContent = o.prompt;
+    textEl.innerHTML = escapeHtml(o.text) +
+      '<span class="oracle-cursor" aria-hidden="true"></span>';
+    textEl.classList.remove('fading');
+    updateCounter();
+  }, 240);
+}
+
+prevBtn.addEventListener('click', function() {
+  currentIndex = (currentIndex - 1 + oracles.length) % oracles.length;
+  showOracle(currentIndex);
+});
+
+nextBtn.addEventListener('click', function() {
+  currentIndex = (currentIndex + 1) % oracles.length;
+  showOracle(currentIndex);
+});
+
+advanceBtn.addEventListener('click', function() {
+  currentIndex = (currentIndex + 1) % oracles.length;
+  showOracle(currentIndex);
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight') nextBtn.click();
+  if (e.key === 'ArrowLeft')  prevBtn.click();
+});
+
+// Load full sample set from JSON
+fetch('./assets/samples.json')
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (Array.isArray(data) && data.length > 0) {
+      var valid = data.filter(function(d) {
+        return d && d.text && d.text.trim().length > 0 &&
+               d.text.indexOf('[ERR]') === -1;
+      });
+      if (valid.length > 0) {
+        oracles = valid;
+        currentIndex = 0;
+        showOracle(0);
+        updateCounter();
+      }
+    }
+  })
+  .catch(function() { /* offline / file:// — use inline fallback silently */ });
+
+// Init
+updateCounter();
+
+// ============================================================
+// ASCII portrait — load from assets file
+// ============================================================
+fetch('./assets/the-voices-ascii.txt')
+  .then(function(r) { return r.text(); })
+  .then(function(txt) {
+    document.getElementById('asciiPortrait').textContent = txt;
+  })
+  .catch(function() {
+    /* offline / file:// — keep the inline portrait already in the <pre> */
+  });
+
+</script>
+
+</body>
+</html>

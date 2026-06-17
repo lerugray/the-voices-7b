@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    background: #080604;
+    font-family: 'Courier New', 'Lucida Console', monospace;
+  }
+
+  /* Diagonal grain — faint, matches the page's starfield */
+  .stripes {
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        -55deg,
+        transparent 0px,
+        transparent 52px,
+        rgba(150, 12, 12, 0.030) 52px,
+        rgba(150, 12, 12, 0.030) 54px
+      );
+  }
+
+  /* Glow behind name */
+  .glow-blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 860px;
+    height: 420px;
+    background: radial-gradient(ellipse, rgba(190, 26, 26, 0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .card {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 80px;
+  }
+
+  /* Top broadsheet rule */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 60px; right: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #7c0f0f, transparent);
+  }
+
+  /* Bottom broadsheet rule */
+  .card::after {
+    content: '';
+    position: absolute;
+    bottom: 28px; left: 60px; right: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #7c0f0f, transparent);
+  }
+
+  /* Accent bar */
+  .red-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: #b01818;
+  }
+
+  .lab-tag {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: #51453a;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .name {
+    font-size: 84px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #e8ddcf;
+    line-height: 1;
+    margin-bottom: 22px;
+    text-shadow:
+      0 0 80px rgba(190, 26, 26, 0.24),
+      0 0 30px rgba(190, 26, 26, 0.12);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 680px;
+    margin-bottom: 22px;
+  }
+
+  .div-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #520e0e);
+  }
+
+  .div-line:last-child {
+    background: linear-gradient(90deg, #520e0e, transparent);
+  }
+
+  .div-mark {
+    color: #ef3434;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+  }
+
+  .epithet {
+    font-size: 19px;
+    color: #ef3434;
+    letter-spacing: 0.06em;
+    font-style: italic;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .tags {
+    display: flex;
+    gap: 14px;
+  }
+
+  .tag {
+    font-size: 13px;
+    color: #ef3434;
+    border: 1px solid #520e0e;
+    padding: 4px 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: rgba(190, 26, 26, 0.05);
+  }
+</style>
+</head>
+<body>
+  <div class="stripes"></div>
+  <div class="red-bar"></div>
+  <div class="glow-blob"></div>
+  <div class="card">
+    <div class="lab-tag">The Elect &mdash; Voice Lab &middot; The Voices</div>
+    <div class="name">JOAN OF ARC</div>
+    <div class="divider">
+      <span class="div-line"></span>
+      <span class="div-mark">&#x25A0; I CANNOT TELL ABOUT THAT &#x25A0;</span>
+      <span class="div-line"></span>
+    </div>
+    <div class="epithet">testimony-derived &mdash; a voice model from what she answered</div>
+    <div class="tags">
+      <span class="tag">7B parameters</span>
+      <span class="tag">Testimony-derived</span>
+      <span class="tag">Runs locally</span>
+    </div>
+  </div>
+</body>
+</html>
